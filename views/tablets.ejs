@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <% include blocks/links.ejs %>
+    <script src="/scripts/delete-tablet-script.js"></script>
+    <script src="/scripts/cart-manipulation.js"></script>
+
+</head>
+<body>
+
+<% include blocks/menu.ejs %>
+<div class = "container">
+<div class = "row">
+    <% for (var i = 0; i < tablet.length; ++i) {%>
+        <div class="card col-lg-4">
+            <img src="/images/<%=tablet[i].id%>.jpg" style="width:auto; height: 348px;">
+            <div style = "height: 73px"><h3 class = "model-name">Модель: <%= tablet[i].name %></h3></div>
+            <h4>Бренд: <%= tablet[i].brand %></h4>
+            <h4>Ціна: <%= tablet[i].price * (1-tablet[i].sale/100) %> грн</h4>
+            <h4>Знижка: <%= tablet[i].sale %></h4>
+            <h4>Розмір екрану: <%= tablet[i].screen_size %> дюймів</h4>
+            <h4>Об'єм RAM: <%= tablet[i].RAM %> Гб</h4>
+            <h4>Об'єм накопичувача: <%= tablet[i].storage %> Гб</h4>
+            <a style = "margin-bottom: 1em" href="/cart/<%=tablet[i].id%>" class="btn btn-primary btn-lg active add-to-cart" role="button" aria-pressed="true" id = "<%=tablet[i].id%>">В кошик</a>
+            <% if (userData === undefined); else { %>
+                <% if (JSON.parse(userData).role === 'admin') { %>
+                    <a style = "margin-bottom: 1em" href="/edit/<%=tablet[i].id%>" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Змінити товар</a>
+                    <!-- <p style = "padding-top: 1em"><button class = "delete-tablet" id = "<%=tablet[i].id%>">В кошик</button></p> -->
+                    <a style = "margin-bottom: 1em" href ="/delete/<%=tablet[i].id%>" class="btn btn-primary btn-lg active delete-tablet" role="button" aria-pressed="true" id = "<%=tablet[i].id%>">Видалити товар</a>
+                <% } %>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+<div class="row">
+    <div class="card col-lg-6" style = "padding: 20px">
+        <% if (page == 1) { %>
+            <a href="/tablets/<%=page - 1%>" class="btn btn-primary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Назад</a>
+        <% } else { %>
+            <a href="/tablets/<%=page - 1%>" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Назад</a>
+        <% } %>    </div>
+    <div class="card col-lg-6" style = "padding: 20px">
+        <% if (page == maxPage) { %>
+            <a href="/tablets/<%=page - 1 + 2%>" class="btn btn-primary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Вперед</a>
+        <% } else { %>
+            <a href="/tablets/<%=page - 1 + 2%>" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Вперед</a>
+        <% } %>
+    </div>
+</div>
+</div>
+<% include blocks/footer.ejs %>
+
+</body>
+</html>

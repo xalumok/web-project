@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <% include blocks/links.ejs %>
+    <script src="/scripts/cart-manipulation.js"></script>
+</head>
+<body>
+
+<% include blocks/menu.ejs %>
+
+<div class = "container">    
+    <% if (cartList === undefined) { %>
+        <div class = "row" style = "margin-top : 20px">
+                <div class="card col-lg-12">
+                    <h4>Кошик пустий :)</h4>
+                </div>
+            </div>
+    <%} else {%>
+        <% var cl = JSON.parse(cartList); %>
+        <div class="row">
+            <% var price = 0; %>
+            <% for (var i = 0; i< cl.length; ++i) {price += cl[i].price;} %>
+            <div class="card col-lg-12 text-center">
+                <div class="card-body">
+                    <h4 class = "card-text">Сума: <%= Math.round(price) %> грн</h3>
+                </div>
+            </div>
+        </div>
+        <div class = "row">
+            <div class="card col-lg-12" style = "padding:0px">
+                <a href="/buy" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Придбати все!</a>
+            </div>
+        </div>
+        <div class="row">
+            <% for (var i = 0; i < cl.length; ++i) { %>
+                <div class = "card col-lg-6 text-center" style="padding: 0">
+                    <div class="card-body">
+                        <h4 class = "card-text">Модель: <%= cl[i].name %></h3>
+                        <h4 class = "card-text">Ціна: <%= cl[i].price %> грн</h4> 
+                    </div>
+                    <a href="/cart/<%=i%>" class="btn btn-primary btn-lg active delete-from-cart" role="button" aria-pressed="true" id = "<%=i%>" >Видалити з кошика</a>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+
+<% include blocks/footer.ejs %>
+
+</body>
+</html>
